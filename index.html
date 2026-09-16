@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>TraceLock — Freeze & Trace</title>
+<meta name="description" content="Drop an image, position it, then freeze your screen to trace it — touches won't move or scroll anything." />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+<meta name="theme-color" content="#4f46e5" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="TraceLock" />
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png" />
+<link rel="manifest" href="manifest.json" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ============ SCREEN 1: UPLOAD ============ -->
+<section id="screen-upload" class="screen active">
+  <div class="upload-wrap">
+    <div class="logo">🔒🖼️</div>
+    <h1>TraceLock</h1>
+    <p class="tagline">Drop a photo, position it, freeze the screen, trace it.<br>No more image sliding around while you draw.</p>
+
+    <label id="dropzone" for="file-input">
+      <span class="dz-icon">＋</span>
+      <span class="dz-text">Tap to choose an image<br><small>or drag &amp; drop / paste</small></span>
+    </label>
+    <input id="file-input" type="file" accept="image/*" hidden />
+  </div>
+</section>
+
+<!-- ============ SCREEN 2: EDITOR ============ -->
+<section id="screen-editor" class="screen">
+  <div id="stage">
+    <img id="img" src="" alt="" draggable="false" />
+  </div>
+
+  <div class="editor-topbar">
+    <button id="btn-back" class="icon-btn" title="Choose a different image">←</button>
+    <div class="topbar-title">Position your image</div>
+    <button id="btn-code" class="icon-btn" title="Set unlock code">🔑</button>
+  </div>
+
+  <div class="editor-controls">
+    <div class="control-row">
+      <label>Zoom</label>
+      <input id="zoom-range" type="range" min="20" max="400" value="100" />
+    </div>
+    <div class="control-row">
+      <label>Fade</label>
+      <input id="opacity-range" type="range" min="15" max="100" value="100" />
+    </div>
+    <div class="control-row buttons-row">
+      <button id="btn-rotate" class="pill-btn">⟳ Rotate</button>
+      <button id="btn-invert" class="pill-btn">◑ Invert</button>
+      <button id="btn-reset" class="pill-btn">↺ Reset</button>
+    </div>
+    <button id="btn-lock" class="lock-btn">🔒 Freeze &amp; Trace</button>
+    <p class="hint">Pinch or drag to position &amp; zoom. This is exactly how it'll look when frozen.</p>
+  </div>
+</section>
+
+<!-- ============ SCREEN 3: TRACE / FROZEN ============ -->
+<section id="screen-trace" class="screen">
+  <div id="trace-stage">
+    <img id="trace-img" src="" alt="" draggable="false" />
+  </div>
+  <div id="frozen-banner">FROZEN — touches are disabled. Hold the corner to unlock.</div>
+  <div id="unlock-corner" title="Hold to unlock"></div>
+</section>
+
+<!-- ============ UNLOCK KEYPAD OVERLAY ============ -->
+<div id="keypad-overlay" class="overlay">
+  <div class="keypad-card">
+    <div class="keypad-title">Enter unlock code</div>
+    <div id="keypad-dots" class="keypad-dots"></div>
+    <div class="keypad-grid">
+      <button class="key">1</button><button class="key">2</button><button class="key">3</button>
+      <button class="key">4</button><button class="key">5</button><button class="key">6</button>
+      <button class="key">7</button><button class="key">8</button><button class="key">9</button>
+      <button class="key key-cancel" id="key-cancel">✕</button>
+      <button class="key">0</button>
+      <button class="key key-del" id="key-del">⌫</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ SET CODE OVERLAY ============ -->
+<div id="setcode-overlay" class="overlay">
+  <div class="keypad-card">
+    <div class="keypad-title" id="setcode-title">Set a new unlock code</div>
+    <div id="setcode-dots" class="keypad-dots"></div>
+    <div class="keypad-grid">
+      <button class="key sc-key">1</button><button class="key sc-key">2</button><button class="key sc-key">3</button>
+      <button class="key sc-key">4</button><button class="key sc-key">5</button><button class="key sc-key">6</button>
+      <button class="key sc-key">7</button><button class="key sc-key">8</button><button class="key sc-key">9</button>
+      <button class="key key-cancel" id="setcode-cancel">✕</button>
+      <button class="key sc-key">0</button>
+      <button class="key key-del" id="setcode-del">⌫</button>
+    </div>
+    <p class="hint">Pick any 4 digits. You'll need this to unlock while frozen.</p>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
