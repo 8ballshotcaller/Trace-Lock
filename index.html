@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>TraceLock — Freeze & Trace</title>
+<meta name="description" content="Drop an image, position it, then freeze your screen to trace it — touches won't move or scroll anything." />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+<meta name="theme-color" content="#4f46e5" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="TraceLock" />
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png" />
+<link rel="manifest" href="manifest.json" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ============ SCREEN 1: UPLOAD ============ -->
+<section id="screen-upload" class="screen active">
+  <button id="btn-help-upload" class="help-btn" title="How this works">?</button>
+  <div id="ios-hint" class="ios-hint">
+    <span>For a true fullscreen view with no browser bars: tap <strong>Share ⬆</strong> → <strong>Add to Home Screen</strong>.</span>
+    <button id="ios-hint-close" aria-label="Dismiss">✕</button>
+  </div>
+  <div class="upload-wrap">
+    <div class="logo">🔒🖼️</div>
+    <h1>TraceLock</h1>
+    <p class="tagline">Drop a photo, position it, freeze the screen, trace it.<br>No more image sliding around while you draw.</p>
+
+    <label id="dropzone" for="file-input">
+      <span class="dz-icon">＋</span>
+      <span class="dz-text">Tap to choose an image<br><small>or drag &amp; drop / paste</small></span>
+    </label>
+    <input id="file-input" type="file" accept="image/*" hidden />
+  </div>
+</section>
+
+<!-- ============ SCREEN 2: EDITOR ============ -->
+<section id="screen-editor" class="screen">
+  <div id="stage">
+    <img id="img" src="" alt="" draggable="false" />
+  </div>
+
+  <div class="editor-topbar">
+    <button id="btn-back" class="icon-btn" title="Choose a different image">←</button>
+    <div class="topbar-title">Position your image</div>
+    <button id="btn-help-editor" class="icon-btn" title="How this works">?</button>
+  </div>
+
+  <div class="editor-controls">
+    <div class="control-row">
+      <label>Zoom</label>
+      <input id="zoom-range" type="range" min="20" max="400" value="100" />
+    </div>
+    <div class="control-row">
+      <label>Fade</label>
+      <input id="opacity-range" type="range" min="15" max="100" value="100" />
+    </div>
+    <div class="control-row buttons-row">
+      <button id="btn-rotate" class="pill-btn">⟳ Rotate</button>
+      <button id="btn-flip" class="pill-btn">⇋ Flip</button>
+      <button id="btn-invert" class="pill-btn">◑ Invert</button>
+      <button id="btn-reset" class="pill-btn">↺ Reset</button>
+    </div>
+    <button id="btn-lock" class="lock-btn">🔒 Freeze &amp; Trace</button>
+    <p class="hint">Pinch/drag to position &amp; zoom, or use arrow keys to nudge. Double-tap to fit. This is exactly how it'll look when frozen.</p>
+  </div>
+</section>
+
+<!-- ============ SCREEN 3: TRACE / FROZEN ============ -->
+<section id="screen-trace" class="screen">
+  <div id="trace-stage">
+    <img id="trace-img" src="" alt="" draggable="false" />
+  </div>
+  <div id="frozen-banner"><svg class="timer-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="13" r="8" stroke="currentColor" stroke-width="2"/><path d="M12 9v4l2.5 2.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 2h5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>FROZEN — touches are disabled.<br>Hold the <strong>bottom-right corner</strong> for 5 seconds to unlock.</div>
+
+  <div id="unlock-right" class="unlock-zone">
+    <div class="unlock-ring"></div>
+    <svg class="unlock-timer-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="13" r="8" stroke="currentColor" stroke-width="2"/><path d="M12 9v4l2.5 2.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 2h5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+  </div>
+</section>
+
+<!-- ============ HELP / INTRO OVERLAY ============ -->
+<div id="intro-overlay" class="overlay">
+  <div class="intro-card">
+    <div class="intro-title">How TraceLock works</div>
+    <ol class="intro-steps">
+      <li><strong>Choose a photo</strong> — drop one in or tap to pick it.</li>
+      <li><strong>Position it</strong> — pinch to zoom, drag to move, rotate or flip if needed. Double-tap the image to snap back to fit, or use arrow keys for pixel-precise nudges.</li>
+      <li><strong>Tap "Freeze &amp; Trace"</strong> — the screen locks in place.</li>
+      <li><strong>Trace it</strong> — lay paper on the screen and draw. Nothing will move, even if you press hard.</li>
+      <li><strong>Unlock</strong> — hold down the bottom-right corner of the screen for 5 seconds. A ring will fill clockwise around the timer icon; once it completes, you're back to editing.</li>
+    </ol>
+    <button id="intro-close" class="lock-btn">Got it</button>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
